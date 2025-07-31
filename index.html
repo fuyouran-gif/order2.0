@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>雪糕 & 小吃扫码点餐</title>
+  <style>
+    :root{--theme:#007367;--light:#f7f9f8;--grey:#e6e9e8;--radius:12px;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;}
+    body{background:linear-gradient(135deg,#f0f2f0,#e0e6e6);min-height:100vh;padding:20px;}
+    header{background:#fff;border-radius:var(--radius);box-shadow:0 4px 12px rgba(0,0,0,.05);padding:20px;margin-bottom:24px;text-align:center;color:var(--theme);}
+    .section-title{background:#fff;border-radius:var(--radius);padding:12px 20px;margin:32px 0 16px;font-size:20px;font-weight:600;color:var(--theme);display:flex;align-items:center;}
+    .section-title::before{content:"";width:4px;height:18px;background:var(--theme);margin-right:8px;border-radius:2px;}
+    .cards{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+    .card{background:#fff;border-radius:var(--radius);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;transition:.3s;}
+    .card:hover{transform:translateY(-4px);}
+    .card img{width:100%;height:110px;object-fit:cover;}
+    .card h3{font-size:16px;padding:10px 12px 4px;color:#333;}
+    .card .price{color:var(--theme);font-weight:700;padding:0 12px 8px;}
+    .card button{width:100%;border:0;background:var(--theme);color:#fff;font-size:15px;padding:10px 0;cursor:pointer;}
+    .card button:hover{background:#005c52;}
+    .cart-area{background:#ffffff80;backdrop-filter:blur(8px);border-radius:var(--radius);padding:20px;margin-top:40px;}
+    .cart-area ul{list-style:none;margin-top:10px;}
+    .cart-area li{background:#fff;margin:6px 0;padding:8px 12px;border-radius:var(--radius);display:flex;justify-content:space-between;}
+    .cart-area .submit{background:var(--theme);color:#fff;border:0;padding:14px 0;border-radius:var(--radius);width:100%;font-size:16px;cursor:pointer;}
+    .cart-area .submit:hover{background:#005c52;}
+  </style>
+</head>
+<body>
+  <header><h1>桌号：<span id="tableNum">--</span></h1></header>
+
+  <!-- 雪糕区 -->
+  <div class="section-title">🍦 雪糕区</div>
+  <section class="cards">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1586195831800-24f14c992cea?auto=format&fit=crop&w=400&q=60" alt="八喜">
+      <h3>八喜</h3><div class="price">¥8</div>
+      <button onclick="add('八喜',8)">+ 加入</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1559340170-d84a0fdba4b3?auto=format&fit=crop&w=400&q=60" alt="老冰棍">
+      <h3>老冰棍</h3><div class="price">¥2</div>
+      <button onclick="add('老冰棍',2)">+ 加入</button>
+    </div>
+    <div class="card">
+      <h3>雪糕</h3><div class="price">¥2</div>
+      <button onclick="add('雪糕',2)">+ 加入</button>
+    </div>
+    <div class="card">
+      <h3>大红果</h3><div class="price">¥3</div>
+      <button onclick="add('大红果',3)">+ 加入</button>
+    </div>
+    <div class="card">
+      <h3>苦咖啡</h3><div class="price">¥3</div>
+      <button onclick="add('苦咖啡',3)">+ 加入</button>
+    </div>
+    <div class="card">
+      <h3>小布丁</h3><div class="price">¥2</div>
+      <button onclick="add('小布丁',2)">+ 加入</button>
+    </div>
+    <div class="card">
+      <h3>绿豆沙</h3><div class="price">¥3</div>
+      <button onclick="add('绿豆沙',3)">+ 加入</button>
+    </div>
+    <div class="card">
+      <h3>冰杯</h3><div class="price">¥2</div>
+      <button onclick="add('冰杯',2)">+ 加入</button>
+    </div>
+  </section>
+
+  <!-- 小吃区 -->
+  <div class="section-title">🍢 小吃区</div>
+  <section class="cards">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1603048719539-9ecb4aa395e3?auto=format&fit=crop&w=400&q=60" alt="烤肠">
+      <h3>烤肠（清真）</h3><div class="price">¥8</div>
+      <button onclick="add('烤肠',8)">+ 加入</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=400&q=60" alt="卤鸡蛋">
+      <h3>卤鸡蛋</h3><div class="price">¥2</div>
+      <button onclick="add('卤鸡蛋',2)">+ 加入</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1572286258217-215b98b27b99?auto=format&fit=crop&w=400&q=60" alt="手打柠檬茶">
+      <h3>手打柠檬茶</h3><div class="price">¥10</div>
+      <button onclick="add('手打柠檬茶',10)">+ 加入</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=60" alt="美式">
+      <h3>美式咖啡</h3><div class="price">¥15</div>
+      <button onclick="add('美式咖啡',15)">+ 加入</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=400&q=60" alt="牛肉饭">
+      <h3>牛肉饭/面</h3><div class="price">¥28</div>
+      <button onclick="add('牛肉饭/面',28)">+ 加入</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=60" alt="面包">
+      <h3>面包</h3><div class="price">¥5</div>
+      <button onclick="add('面包',5)">+ 加入</button>
+    </div>
+  </section>
+
+  <!-- 购物车 -->
+  <section class="cart-area">
+    <h2>已选商品</h2>
+    <ul id="cartList"></ul>
+    <div style="text-align:right;margin-bottom:10px;font-size:18px;">
+      合计：<span id="total">0</span> 元
+    </div>
+    <button class="submit" onclick="submitOrder()">提交订单</button>
+  </section>
+
+  <script>
+    const table = new URLSearchParams(location.search).get('table') || '未知桌';
+    document.getElementById('tableNum').textContent = table;
+    let cart = [];
+    function add(name, price){
+      cart.push({name,price});
+      render();
+    }
+    function render(){
+      const ul = document.getElementById('cartList');
+      ul.innerHTML = '';
+      let total = 0;
+      cart.forEach(item=>{
+        const li = document.createElement('li');
+        li.innerHTML = `${item.name} <span>¥${item.price}</span>`;
+        ul.appendChild(li);
+        total += item.price;
+      });
+      document.getElementById('total').textContent = total.toFixed(2);
+    }
+    function submitOrder(){
+      if(!cart.length){alert('请先选择商品！');return;}
+      const order = {table,items:cart,time:new Date().toLocaleString()};
+      localStorage.setItem('order_'+Date.now(), JSON.stringify(order));
+      alert(`桌号 ${table} 订单已提交！金额：¥${document.getElementById('total').textContent}`);
+      cart=[];render();
+    }
+  </script>
+</body>
+</html>
